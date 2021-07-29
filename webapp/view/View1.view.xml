@@ -39,13 +39,8 @@
 							<fb:FilterGroupItem groupName="__$INTERNAL$" name="B" label="Сurrency" labelTooltip="Tooltip Example" mandatory="false"
 							partOfCurrentVariant="true" visibleInFilterBar="true">
 								<fb:control>
-									<ComboBox change='onCurrencyChoose'>
-										<items>
-											<core:Item key="001" text="RUB"/>
-											<core:Item key="002" text="EUR"/>
-											<core:Item key="003" text="USD"/>
-											<core:Item key="004" text="ALL"/>
-										</items>
+									<ComboBox change='onCurrencyChoose' items="{asdf>/}">
+										<core:ListItem text = "{asdf>Cur_Abbreviation}"/>
 									</ComboBox>
 								</fb:control>
 							</fb:FilterGroupItem>
@@ -54,22 +49,24 @@
 				</l:VerticalLayout>
 
 				<viz:Popover id="idPopOver"></viz:Popover>
-				<viz:VizFrame id="idVizFrame" height='100%' width='100%' legendVisible="false"
-					vizType='line' vizProperties="{title: { text: 'Dynamics of exchange rates for the period'}}">
-					<viz:dataset>
+				<viz:VizFrame id="idVizFrame" height='100%' width='100%' 
+					vizType='line' vizProperties="{title: { text: 'Dynamics of exchange rates for the period'},
+					legend: {visible: 'false'},
+					valueAxis: {label: {formatString: ''}}
+					}">
+					<viz:dataset >
 						<viz.data:FlattenedDataset data="{/ZVK_CDS_ERATES}">
 							<viz.data:dimensions>
 								<viz.data:DimensionDefinition name="Exchange rate date"
 									value="{
-									path: 'ERDate',
-									formatter: '.formatter.dateFormat'}" 
+										path: 'ERDate',
+										formatter: '.formatter.dateFormat'}" 
 								/>
 							</viz.data:dimensions>
 							<viz.data:measures>
 								<viz.data:MeasureDefinition name="Rate"
 									value="{
-										path: 'Rate'
-										}"
+										path: 'Rate'}"
 								/>
 							</viz.data:measures>
 						</viz.data:FlattenedDataset>
