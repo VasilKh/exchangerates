@@ -10,75 +10,55 @@
 	xmlns:l="sap.ui.layout"
 	xmlns:core="sap.ui.core" 
 >
-
 	<App id="app">
-		<Page id="page" title="{i18n>title}" showHeader="false">
-			<subHeader>
-				<!-- <Toolbar>
-					<ToolbarSpacer/>
-					<Button text="Syncronize" press="onPress" />
-					<Button icon="sap-icon://action" type="Transparent" press="onPress" ariaLabelledBy="actionButtonLabel"/>
-					<ToolbarSpacer/>
-				</Toolbar> -->
-			</subHeader>
-
-			<content>
-
-				<l:VerticalLayout width="100%">
-					<fb:FilterBar reset="onReset" search="onSearch" showRestoreButton="true" showClearButton="true"
-					showFilterConfiguration="false" showRestoreOnFB="false" expandAdvancedArea="false" useToolbar="false"> 
+		<Page id="page" title="{i18n>title}" showHeader="false" enableScrolling="true" >
+			<l:VerticalLayout width="100%">
+				<fb:FilterBar search="onSearch" showRestoreButton="true" showClearButton="true"
+				showFilterConfiguration="false" showRestoreOnFB="false" expandAdvancedArea="false" useToolbar="false"> 
+					<fb:filterGroupItems>
+						<fb:FilterGroupItem groupName="__$INTERNAL$" name="A" label="Sampling period" mandatory="false"
+						partOfCurrentVariant="true" visibleInFilterBar="true">
+							<fb:control>
+								<DateRangeSelection displayFormat='dd/MM/yyyy' width="100%" change="onDateChoose"/>
+							</fb:control>
+						</fb:FilterGroupItem>
+						<fb:FilterGroupItem groupName="__$INTERNAL$" name="B" label="Сurrency" labelTooltip="Tooltip Example" mandatory="false"
+						partOfCurrentVariant="true" visibleInFilterBar="true">
+							<fb:control>
+								<ComboBox change='onCurrencyChoose' items="{asdf>/}">
+									<core:ListItem text = "{asdf>Cur_Abbreviation}"/>
+								</ComboBox>
+							</fb:control>
+						</fb:FilterGroupItem>
+					</fb:filterGroupItems>
 					<Button text="Syncronize" press="onSyncronize"/>
-						<fb:filterGroupItems>
-							<fb:FilterGroupItem groupName="__$INTERNAL$" name="A" label="Sampling period" mandatory="false"
-							partOfCurrentVariant="true" visibleInFilterBar="true">
-								<fb:control>
-									<DateRangeSelection displayFormat='dd/MM/yyyy' width="100%" change="onDateChoose"/>
-								</fb:control>
-							</fb:FilterGroupItem>
-
-							<fb:FilterGroupItem groupName="__$INTERNAL$" name="B" label="Сurrency" labelTooltip="Tooltip Example" mandatory="false"
-							partOfCurrentVariant="true" visibleInFilterBar="true">
-								<fb:control>
-									<ComboBox change='onCurrencyChoose' items="{asdf>/}">
-										<core:ListItem text = "{asdf>Cur_Abbreviation}"/>
-									</ComboBox>
-								</fb:control>
-							</fb:FilterGroupItem>
-						</fb:filterGroupItems>
-					</fb:FilterBar>
-				</l:VerticalLayout>
-
-				<viz:Popover id="idPopOver"></viz:Popover>
-				<viz:VizFrame id="idVizFrame" height='100%' width='100%' 
-					vizType='line' vizProperties="{title: { text: 'Dynamics of exchange rates for the period'},
-					legend: {visible: 'false'},
-					valueAxis: {label: {formatString: ''}}
-					}">
-					<viz:dataset >
-						<viz.data:FlattenedDataset data="{/ZVK_CDS_ERATES}">
-							<viz.data:dimensions>
-								<viz.data:DimensionDefinition name="Exchange rate date"
-									value="{
-										path: 'ERDate',
-										formatter: '.formatter.dateFormat'}" 
-								/>
-							</viz.data:dimensions>
-							<viz.data:measures>
-								<viz.data:MeasureDefinition name="Rate"
-									value="{
-										path: 'Rate'}"
-								/>
-							</viz.data:measures>
-						</viz.data:FlattenedDataset>
-					</viz:dataset>
-
-					<viz:feeds>
-						<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="Rate" />
-						<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension"	values="Exchange rate date" />
-					</viz:feeds>
-				</viz:VizFrame>
-
-			</content>
+				</fb:FilterBar>
+			</l:VerticalLayout>
+			<viz:VizFrame id="idVizFrame" height='75%' width='100%' 
+				vizType='line' vizProperties="{title: { text: 'Dynamics of exchange rates for the period'},
+				legend: {visible: 'false'},
+				valueAxis: {label: {formatString: ''}}
+				}">
+				<viz:dataset >
+					<viz.data:FlattenedDataset data="{/ZVK_CDS_ERATES}">
+						<viz.data:dimensions>
+							<viz.data:DimensionDefinition name="Exchange rate date"
+								value="{
+									path: 'ERDate',
+									formatter: '.formatter.dateFormat'}" 
+							/>
+						</viz.data:dimensions>
+						<viz.data:measures>
+							<viz.data:MeasureDefinition name="Rate"
+								value="{Rate}"/>
+						</viz.data:measures>
+					</viz.data:FlattenedDataset>
+				</viz:dataset>
+				<viz:feeds>
+					<viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure" values="Rate" />
+					<viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension"	values="Exchange rate date" />
+				</viz:feeds>
+			</viz:VizFrame>
 		</Page>
 	</App>
 </mvc:View>

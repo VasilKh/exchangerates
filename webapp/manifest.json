@@ -85,8 +85,6 @@
         "viewType": "XML",
         "async": true,
         "viewPath": "exchangerates.view",
-        "controlAggregation": "pages",
-        "controlId": "app",
         "clearControlAggregation": false
       },
       "routes": [
